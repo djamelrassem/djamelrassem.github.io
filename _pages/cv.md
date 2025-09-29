@@ -11,26 +11,27 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+* Ph.D in computer science at UGA, 2025-on going
+* M.S. in computer science from ENSIMAG x UGA, 2024-2025
+* Engineering degree in computer science from ESI Algiers, 2018-2023
 
-Work experience
+Research experience
 ======
-* Spring 2024: Academic Pages Collaborator
-  * GitHub University
-  * Duties includes: Updates and improvements to template
-  * Supervisor: The Users
+* Spring 2025: Research intern
+  * Inria Grenoble 
+  * Reinforcement learning for code optimization
+  * Supervisor: Riyadh Baghdadi
 
-* Fall 2015: Research Assistant
-  * GitHub University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+* 2023-2024: Research assistant
+  * New York University Abu Dhabi
+  * Reinforcement learning for code optimization
+  * Supervisor: Riyadh Baghdadi
+  
+* 2022-2023: Research intern
+  * New York University Abu Dhabi
+  * Reinforcement learning for code optimization
+  * Supervisor: Riyadh Baghdadi
 
-* Summer 2015: Research Assistant
-  * GitHub University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
   
 Skills
 ======
