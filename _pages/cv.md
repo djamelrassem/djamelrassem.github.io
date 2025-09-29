@@ -18,9 +18,9 @@ Education
 Research experience
 ======
 * Spring 2025: Research intern
-  * Inria Grenoble 
-  * Reinforcement learning for code optimization
-  * Supervisor: Riyadh Baghdadi
+  * Inria - POLARIS team
+  * Bias of constant step size two time scale stochastic approximation
+  * Supervisor: Nicolas Gast
 
 * 2023-2024: Research assistant
   * New York University Abu Dhabi
@@ -33,33 +33,9 @@ Research experience
   * Supervisor: Riyadh Baghdadi
 
   
-Skills
-======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
-
 Publications
 ======
   <ul>{% for post in site.publications reversed %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
-Talks
-======
-  <ul>{% for post in site.talks reversed %}
-    {% include archive-single-talk-cv.html  %}
-  {% endfor %}</ul>
-  
-Teaching
-======
-  <ul>{% for post in site.teaching reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
