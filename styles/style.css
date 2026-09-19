@@ -1,0 +1,78 @@
+body {
+  max-width: 700px; /* You can increase or decrease this number to your liking */
+}
+
+.top-nav {
+  display: flex;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid currentColor;
+}
+
+.top-nav a {
+  text-decoration: none;
+  font-variant: small-caps;
+}
+
+.top-nav a:hover {
+  text-decoration: underline;
+}
+
+.two-column-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.two-column-layout {
+  display: flex;
+  align-items: flex-start; /* 1. Forces both columns to stick to the ceiling */
+  gap: 2rem;
+  margin: 2rem 0;
+}
+.two-column-layout > div:first-child {
+  flex: 1; 
+}
+
+/* 2. Targets the second column (the text) and gives it 2 parts of the available space (2/3) */
+.two-column-layout > div:last-child {
+  flex: 3; 
+}
+
+/* 2. This is the magic rule. It targets the very first element inside your text column and removes the invisible space above it. */
+.two-column-layout > div > :first-child {
+  margin-top: 0; 
+}
+
+.two-column-layout img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Space between each link */
+  margin-top: 1rem; /* Space between the image and the links */
+}
+
+.contact-links a {
+  text-decoration: none;
+  font-family: monospace;
+  font-size: 10px;
+  color: #0055cc;
+  /* font-variant: small-caps; Matches your top navigation style */
+}
+
+.contact-links a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .two-column-layout {
+    flex-direction: column;
+  }
+}

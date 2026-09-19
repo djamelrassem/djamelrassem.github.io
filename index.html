@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My LaTeX Website</title>
+  <link rel="stylesheet" href="https://latex.vercel.app/style.css">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<script src="navbar.js" defer></script>
+<body>
+<my-navbar></my-navbar>
+<div class="two-column-layout">
+  
+  <!-- Left Column: The Image -->
+  <div>
+    <!-- Replace the src with your actual image file path -->
+    <img src="data/index/profile.jpeg" width="130" alt="">
+    <div class="contact-links">
+      <!-- Use target="_blank" to open external links in a new tab -->
+      <a href="mailto:djamel-rassem !dot! lamouri !at! univ-grenoble-alpes !dot! fr">Email</a>
+      <a href="https://www.linkedin.com/in/djamelrassem/" target="_blank">LinkedIn</a>
+      <a href="https://scholar.google.com/citations?user=WZCRJEEAAAAJ&hl=en" target="_blank">Google Scholar</a>
+    </div>
+  </div>
+  
+  <!-- Right Column: The Description -->
+  <div>
+    <h3>Djamel Rassem Lamouri</h3>
+    <p> I am a second year PhD student in computer science at Université Grenoble Alpes. My research aims to establish a bridge between practical algorithms of machine learning and theoretical foundations of Stochastic Approximation. I am fortunate to be supervised by <a href="https://polaris.imag.fr/nicolas.gast/">Nicolas Gast</a> and <a href="https://dbaudry.github.io/">Dorian Baudry</a> and being part of the <a href="https://ghost-team.gitlabpages.inria.fr/">Ghost team</a>.
+    </p>
+    <p>Main areas of research: Stochastic Approximation, Reinforcement Learning, Stochastic Optimization.</p>
+  </div>
+</div>
+<div>
+    <h4>News ⭐️</h4>
+    <b>17.09.2026</b> My first paper of the PhD is online on <a href="https://arxiv.org/abs/2609.20409">arxiv</a> !
+    <br> 
+    <b>01.10.2025</b> PhD started.
+    <!-- <div class="simulation-container">
+    <canvas id="saCanvas"></canvas>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('saCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Simulation State
+    let width, height, centerX, centerY;
+    let time = 10; // Starting "time" to prevent infinite noise at t=0
+    
+    // Fast Particle (Red)
+    let fast = { x: 0, y: 0, px: 0, py: 0, color: '#ff4444' };
+    
+    // Slow Particle (Blue)
+    let slow = { x: 0, y: 0, px: 0, py: 0, color: '#44aaff' };
+
+    // Parameters for Two-Time-Scale
+    const ALPHA = 0.01;   // Fast tracking rate
+    const BETA = 0.0015;   // Slow convergence rate
+    const STEPS_PER_FRAME = 1; // Speeds up the simulation mathematically
+
+    function resizeCanvas() {
+      // Set actual size in memory (scaled for retina displays if desired, but 1:1 is fine here)
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+      width = canvas.width;
+      height = canvas.height;
+      
+      centerX = width / 2;
+      centerY = height / 2;
+    }
+
+    function initSimulation() {
+      resizeCanvas();
+      
+      // Start them far away from the equilibrium (center) to demonstrate convergence
+      // Fast particle starts near the top-left
+      fast.x = fast.px = width * 0.1;
+      fast.y = fast.py = height * 0.1;
+      
+      // Slow particle starts near the bottom-right
+      slow.x = slow.px = width * 0.9;
+      slow.y = slow.py = height * 0.9;
+      
+      // Clear with solid background initially
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, width, height);
+    }
+
+    function updatePhysics() {
+      for (let i = 0; i < STEPS_PER_FRAME; i++) {
+        // Save previous positions for drawing continuous lines
+        fast.px = fast.x;
+        fast.py = fast.y;
+        slow.px = slow.x;
+        slow.py = slow.y;
+
+        // Decaying noise amplitude: mimicking decreasing step sizes C / t^(gamma)
+        // Bounded so it doesn't get completely paralyzed
+        let noiseScale = 4;
+
+        // Generate Gaussian-like noise (Box-Muller approx or just sum of uniforms)
+        let noiseF_x = (Math.random() + Math.random() + Math.random() - 1.5) * noiseScale;
+        let noiseF_y = (Math.random() + Math.random() + Math.random() - 1.5) * noiseScale;
+        let noiseS_x = (Math.random() + Math.random() + Math.random() - 1.5) * noiseScale;
+        let noiseS_y = (Math.random() + Math.random() + Math.random() - 1.5) * noiseScale;
+
+        // 1. Fast variable tracks the slow variable
+        fast.x += ALPHA * (slow.x - fast.x) + noiseF_x;
+        fast.y += ALPHA * (slow.y - fast.y) + noiseF_y;
+
+        // 2. Slow variable tracks the global center
+        slow.x += BETA * (centerX - slow.x) + noiseS_x;
+        slow.y += BETA * (centerY - slow.y) + noiseS_y;
+
+        // Advance algorithmic time
+        time += 4;
+      }
+    }
+
+    function draw() {
+      // Create the fading trace effect
+      // Drawing a semi-transparent black rectangle over everything
+    //   ctx.fillStyle = 'rgba(17, 17, 17, 0.05)';
+      ctx.fillRect(0, 0, width, height);
+
+      // Helper function to draw trails
+      function drawTrail(particle, thickness) {
+        ctx.beginPath();
+        ctx.moveTo(particle.px, particle.py);
+        ctx.lineTo(particle.x, particle.y);
+        ctx.strokeStyle = particle.color;
+        ctx.lineWidth = thickness;
+        ctx.lineCap = 'round';
+        // Add a glow effect
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = particle.color;
+        ctx.stroke();
+        
+        // Reset shadow for next operations
+        ctx.shadowBlur = 0;
+      }
+
+      // Draw trails (Fast is thinner, Slow is thicker to represent "mass/inertia")
+      drawTrail(slow, 3);
+      drawTrail(fast, 1.5);
+    }
+
+    function animate() {
+      updatePhysics();
+      draw();
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+      // When resizing, keep the simulation running but clear the canvas
+      resizeCanvas();
+      ctx.fillStyle = '#111111';
+      ctx.fillRect(0, 0, width, height);
+    });
+
+    // Clicking acts as a massive perturbation (resetting the algorithmic time)
+    // This pumps the noise variance back up.
+    canvas.addEventListener('mousedown', (e) => {
+      time = 10; // Reset time to increase noise
+      
+      // Pull the slow variable to the mouse click
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      
+      slow.x = mouseX;
+      slow.y = mouseY;
+      
+      // Send the fast variable to the opposite side of the canvas
+      // to re-demonstrate the rapid tracking behavior
+      fast.x = (slow.x < width / 2) ? width * 0.9 : width * 0.1;
+      fast.y = (slow.y < height / 2) ? height * 0.9 : height * 0.1;
+    });
+    
+    // Touch support for mobile devices
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // Prevent scrolling
+      time = 10;
+      const rect = canvas.getBoundingClientRect();
+      slow.x = e.touches[0].clientX - rect.left;
+      slow.y = e.touches[0].clientY - rect.top;
+      
+      // Send the fast variable to the opposite side
+      fast.x = (slow.x < width / 2) ? width * 0.9 : width * 0.1;
+      fast.y = (slow.y < height / 2) ? height * 0.9 : height * 0.1;
+    }, {passive: false});
+
+    // Start everything once window is fully loaded
+    window.onload = () => {
+      initSimulation();
+      animate();
+    };
+  </script>
+</div> -->
+</body>
+</html>
