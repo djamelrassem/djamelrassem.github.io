@@ -9,5 +9,115 @@
 <script src="navbar.js" defer></script>
 <body>
 <my-navbar></my-navbar>
+
+
+<div id="papers-container">
+  <p>Loading papers...</p>
+</div>
 </body>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById('papers-container');
+
+    // 1. Fetch the CSV file instead of JSON
+    fetch('data/research/citations.csv') // Make sure this matches your downloaded file name!
+      .then(response => {
+        if (!response.ok) throw new Error("Could not load the CSV file");
+        return response.text(); // Read as plain text
+      })
+      .then(csvText => {
+        container.innerHTML = ''; // Clear loading text
+const papers = parseCSV(csvText);
+
+        // 1. Group papers by year
+        const papersByYear = {};
+        
+        papers.forEach(paper => {
+          if (!paper['Title']) return; // Skip empty rows
+          
+          // Fallback if a paper is missing a year
+          const year = paper['Year'] || 'Preprints & Others'; 
+          
+          if (!papersByYear[year]) {
+            papersByYear[year] = [];
+          }
+          papersByYear[year].push(paper);
+        });
+
+        // 2. Sort the years in descending order (newest first)
+        const sortedYears = Object.keys(papersByYear).sort((a, b) => {
+          if (a === 'Preprints & Others') return -1; // Put preprints at the top (or change to 1 for bottom)
+          if (b === 'Preprints & Others') return 1;
+          return parseInt(b) - parseInt(a); 
+        });
+
+        // 3. Loop through the sorted years and build the HTML
+        sortedYears.forEach(year => {
+          
+          // Create a nice academic header for the year
+          const yearHeader = document.createElement('h3');
+          yearHeader.textContent = year;
+          container.appendChild(yearHeader);
+
+          // Loop through all papers inside this specific year
+          papersByYear[year].forEach(paper => {
+            const paperElement = document.createElement('div');
+            paperElement.style.marginBottom = '1rem';
+            paperElement.style.marginTop = '0rem';
+            const myName = "Lamouri, Djamel Rassem"; // REPLACE THIS WITH YOUR ACTUAL NAME
+
+            // 2. Bold your name in the authors string
+            // We use a regular expression (RegExp) with 'gi' to catch it even if the capitalization is slightly different
+            const authorsList = paper['Authors'];
+            const boldedAuthors = authorsList.replace(
+              new RegExp(myName, 'gi'), 
+              `<strong>${myName}</strong>`
+            );
+            paperElement.innerHTML = `
+              <h4 style="margin-bottom: 0rem; font-size: 1.05em;">${paper['Title']}</h4>
+              <p class="author" style="margin-top: 0; margin-bottom: 0rem; text-align: left; font-size:16px">
+                ${boldedAuthors}
+              </p>
+              <p style="margin-top: 0; font-style: italic;">
+                ${paper['Journal'] ||paper['Publication'] || paper['Book'] || 'Preprint'} <a href="https://scholar.google.com/scholar?q=${encodeURIComponent(paper['Title'])}" 
+                   target="_blank" 
+                   style="font-family: monospace; font-size: 12px ; text-decoration: none; color: #0055cc;">[Find on Scholar]</a>
+              </p>
+            `;
+            
+            container.appendChild(paperElement);
+          });
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        container.innerHTML = '<p style="color: red;">Error loading publications.</p>';
+      });
+
+    // Helper functions remain exactly the same
+    function parseCSV(text) {
+      let result = [];
+      let rows = text.trim().split(/\r?\n/);
+      if (rows.length === 0) return result;
+
+      let headers = splitCsvRow(rows[0]).map(h => h.replace(/^"|"$/g, ''));
+
+      for (let i = 1; i < rows.length; i++) {
+        let values = splitCsvRow(rows[i]).map(v => v.replace(/^"|"$/g, ''));
+        let obj = {};
+        for (let j = 0; j < headers.length; j++) {
+          obj[headers[j]] = values[j] || '';
+        }
+        result.push(obj);
+      }
+      return result;
+    }
+
+    function splitCsvRow(row) {
+      const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+      return row.split(regex);
+    }
+  });
+</script>
 </html>
