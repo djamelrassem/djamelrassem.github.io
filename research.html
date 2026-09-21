@@ -23,7 +23,7 @@
     // 1. Fetch the CSV file instead of JSON
     fetch('data/research/citations.csv') // Make sure this matches your downloaded file name!
       .then(response => {
-        if (!response.ok) throw new Error("Could not load the CSV file");
+        if (!response.ok) throw new Error("Could not load publications");
         return response.text(); // Read as plain text
       })
       .then(csvText => {
@@ -63,8 +63,8 @@ const papers = parseCSV(csvText);
           // Loop through all papers inside this specific year
           papersByYear[year].forEach(paper => {
             const paperElement = document.createElement('div');
-            paperElement.style.marginBottom = '1rem';
-            paperElement.style.marginTop = '0rem';
+            paperElement.style.marginBottom = '0 px';
+            paperElement.style.marginTop = '0 px';
             const myName = "Lamouri, Djamel Rassem"; // REPLACE THIS WITH YOUR ACTUAL NAME
 
             // 2. Bold your name in the authors string
@@ -75,14 +75,14 @@ const papers = parseCSV(csvText);
               `<strong>${myName}</strong>`
             );
             paperElement.innerHTML = `
-              <h4 style="margin-bottom: 0rem; font-size: 1.05em;">${paper['Title']}</h4>
-              <p class="author" style="margin-top: 0; margin-bottom: 0rem; text-align: left; font-size:16px">
+              <h4 style="margin-bottom: 0rem; font-size: 14px;">${paper['Title']}</h4>
+              <p style="margin-top: 0; margin-bottom: 0rem; text-align: left; font-size:14px">
                 ${boldedAuthors}
               </p>
               <p style="margin-top: 0; font-style: italic;">
                 ${paper['Journal'] ||paper['Publication'] || paper['Book'] || 'Preprint'} <a href="https://scholar.google.com/scholar?q=${encodeURIComponent(paper['Title'])}" 
                    target="_blank" 
-                   style="font-family: monospace; font-size: 12px ; text-decoration: none; color: #0055cc;">[Find on Scholar]</a>
+                   style="font-family: monospace; font-style: normal; font-size: 12px ; text-decoration: none; color: #0055cc;">[Find on Scholar]</a>
               </p>
             `;
             

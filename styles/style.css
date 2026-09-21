@@ -1,5 +1,5 @@
 body {
-  max-width: 700px; /* You can increase or decrease this number to your liking */
+  max-width: 950px; 
 }
 
 .top-nav {
@@ -38,7 +38,7 @@ body {
 
 /* 2. Targets the second column (the text) and gives it 2 parts of the available space (2/3) */
 .two-column-layout > div:last-child {
-  flex: 3; 
+  flex: 4; 
 }
 
 /* 2. This is the magic rule. It targets the very first element inside your text column and removes the invisible space above it. */
@@ -71,7 +71,7 @@ body {
   text-decoration: underline;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .two-column-layout {
     flex-direction: column;
   }
