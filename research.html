@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
   <meta charset="UTF-8">
   <title>My LaTeX Website</title>
@@ -59,6 +59,7 @@ const papers = parseCSV(csvText);
           // Create a nice academic header for the year
           const yearHeader = document.createElement('h3');
           yearHeader.textContent = year;
+          yearHeader.style.marginBottom = "-1rem";
           container.appendChild(yearHeader);
 
           // Loop through all papers inside this specific year
@@ -76,7 +77,7 @@ const papers = parseCSV(csvText);
               `<strong>${myName}</strong>`
             );
             paperElement.innerHTML = `
-              <h5 style="margin-bottom: 0rem;">${paper['Title']}</h5>
+              <h5 style="margin-bottom: 0rem">${paper['Title']}</h5>
               <p style="margin-top: 0; margin-bottom: 0rem; text-align: left">
                 ${boldedAuthors}
               </p>
