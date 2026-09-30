@@ -1,6 +1,10 @@
 body {
   max-width: 950px; 
 }
+html {
+  -webkit-text-size-adjust: 100%; /* Fixes iOS */
+  text-size-adjust: 100%;
+}
 
 .top-nav {
   display: flex;
@@ -55,14 +59,14 @@ body {
 .contact-links {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* Space between each link */
+  gap: 5px; /* Space between each link */
   margin-top: 1rem; /* Space between the image and the links */
 }
 
 .contact-links a {
   text-decoration: none;
   font-family: monospace;
-  font-size: 10px;
+  font-size: 14px;
   color: #0055cc;
   /* font-variant: small-caps; Matches your top navigation style */
 }
